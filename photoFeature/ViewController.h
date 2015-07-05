@@ -7,9 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
-@interface ViewController : UIViewController
 
+@interface ViewController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
+    
+    __weak IBOutlet UIImageView *imageView;
+    
+    UIImagePickerController *picker;
+    UIImage *image;
+}
+@property (weak, nonatomic) IBOutlet UIButton *takePhoto;
+@property (weak, nonatomic) IBOutlet UIButton *galleryPhoto;
 
+- (IBAction)takePhoto:(id)sender;
+
+- (IBAction)usePhotoGallery:(id)sender;
 @end
 
