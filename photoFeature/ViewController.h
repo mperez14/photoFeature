@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <Parse/Parse.h>
 
 
 @interface ViewController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate>{

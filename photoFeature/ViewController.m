@@ -7,10 +7,11 @@
 //
 
 #import "ViewController.h"
-#import <Parse/Parse.h>
 
 @interface ViewController (){
     NSString *partyName;
+    NSArray *loadimageArray;
+    PFFile *imageFile;
 }
 @property (nonatomic, strong) PFFile *photoFile;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier fileUploadBackgroundTaskId;
@@ -21,6 +22,7 @@
 @implementation ViewController
 @synthesize takePhoto, galleryPhoto;
 - (void)viewDidLoad {
+    [self loadImageParse];
     [super viewDidLoad];
     partyName = @"party1";  //Load name of party (PFObject to save picture to)
     
@@ -38,7 +40,6 @@
     
     
 
-    
     
     /*
     UIImage *leftLandscapeImage = [sendIcon imageWithSize:CGSizeMake(15, 15)];
@@ -98,19 +99,18 @@
     }
     self.photoFile = [PFFile fileWithData:imageData];   //convert jpeg to PFFile
 
-    //PFObject *photo = [PFObject objectWithClassName:@"photos"]; //PFObject = class name
+    //PFObject *photo = [PFObject objectWithClassName:@"photos"]; //PFObject = class name = photos
     //[photo setObject:self.photoFile forKey:@"picture"]; //type (aka column name)
+    
     
     //How to save to parse and separate parties (USE Groups/PFObjects)
     // Create a Photo object
-    
-    PFObject *party = [PFObject objectWithClassName:partyName]; //if partyName object is not created, then make it
+    PFObject *party = [PFObject objectWithClassName:@"App"]; //if partyName object is not created, then make it
     [party setObject:self.photoFile forKey:@"picture"]; //set picture for object
-    [party setObject:partyName forKey:@"partyName"];
+    [party setObject:partyName forKey:@"partyName"];    //save name of Party as a string
     [party saveInBackground];   //push to parse
     
     NSLog(@"Pushed to Parse");
-    
     
     return YES;
 }
@@ -119,6 +119,83 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (PFQuery *)queryForTable {
+    //pull from parse
+    PFQuery *partyPics = [PFQuery queryWithClassName:@"App"];
+    [partyPics whereKey:partyName equalTo:partyName];    //constrain images to same party
+    
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:partyPics, nil]];
+    //[query includeKey:kPAPPhotoUserKey];
+    [query orderByDescending:@"createdAt"];
+    
+    return query;
+}
 
+
+-(void)loadImageParse{
+    NSLog(@"Here");
+    PFQuery *partyPics = [PFQuery queryWithClassName:@"App"];
+    
+    //[partyPics whereKey:@"partyName" equalTo:partyName];    //constrain images to same party
+    [partyPics findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog(@"Error loading");
+        }else{
+            loadimageArray = [[NSArray alloc] initWithArray:objects];
+            NSLog(@"successful");
+            NSLog(@"imageArray: %@", loadimageArray);   //successful
+            
+            for(int i=0; i<[loadimageArray count]; i++){
+                PFObject *imageObject = [loadimageArray objectAtIndex:0];
+                NSLog(@"iamgeObject: %@", imageObject);
+                imageFile = [imageObject objectForKey:@"picture"];
+                NSLog(@"imagefile: %@",imageFile);
+                
+                
+                [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                    if (!error) {
+                        UIImage *imageConverted = [UIImage imageWithData:data];
+                        NSLog(@"%@", data);
+                        NSLog(@"%@", imageFile);
+                        [imageView setImage:imageConverted];
+                        // image can now be set on a UIImageView
+                    }
+                    else{
+                        NSLog(@"Error");
+                    }
+                }];
+            }
+        }
+    }];
+    
+    //PFObject *imageObject =
+    
+    
+    
+    /*
+    NSLog(@"party Pics: %@", partyPics);
+    
+    for(int i=0; i<3; i++){
+        PFObject *partyObjectPics = [partyPics getFirstObject];
+        PFFile *imageFile = [partyObjectPics objectForKey:@"picture"];
+        NSLog(@"%@", imageFile);
+        
+        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            if (!error) {
+                UIImage *imageConverted = [UIImage imageWithData:data];
+                NSLog(@"%@", data);
+                NSLog(@"%@", imageFile);
+                [imageView setImage:imageConverted];
+                // image can now be set on a UIImageView
+            }
+            else{
+                NSLog(@"Error");
+            }
+        }];
+        
+        //image = partyPics;
+    }*/
+}
 
 @end
