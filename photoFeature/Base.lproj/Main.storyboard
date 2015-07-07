@@ -4,10 +4,28 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
+        <!--Table View Controller-->
+        <scene sceneID="fCR-st-Mry">
+            <objects>
+                <viewController id="n01-E0-CIm" customClass="PFTableViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="k3Q-1W-12d"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ikl-En-KzO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ioT-Aj-nOe">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="850-lN-UGv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-425" y="240"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="uploadPicture" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -45,7 +63,7 @@
                                     <action selector="usePhotoGallery:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oKN-rE-dc4"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fJ6-2F-Et2">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fJ6-2F-Et2">
                                 <rect key="frame" x="16" y="37" width="568" height="272"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="568" id="SuK-d4-4cA"/>

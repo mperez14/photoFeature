@@ -33,7 +33,6 @@
 
     UIImage *takePhotoImage = [sendIcon imageWithSize:CGSizeMake(20, 20)];
     UIImage *galleryPhotoImage = [sendIcon2 imageWithSize:CGSizeMake(20, 20)];
-    //sendIcon.iconFontSize = 15;
     
     [takePhoto setImage:takePhotoImage forState:normal];
     [galleryPhoto setImage:galleryPhotoImage forState:normal];
@@ -41,18 +40,15 @@
     
 
     
-    /*
-    UIImage *leftLandscapeImage = [sendIcon imageWithSize:CGSizeMake(15, 15)];
-    self.navigationItem.leftBarButtonItem =
-    [[UIBarButtonItem alloc] initWithImage:leftImage
-                       landscapeImagePhone:leftLandscapeImage
-                                     style:UIBarButtonItemStylePlain
-                                    target:nil
-                                    action:nil];
-    */
-    
-    
-    // Do any additional setup after loading the view, typically from a nib.
+    UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
+    [singleTap setNumberOfTapsRequired:1];
+    [imageView addGestureRecognizer:singleTap];
+    [self.view addSubview:imageView];
+}
+
+-(void)singleTapping:(UIGestureRecognizer *)recognizer
+{
+    NSLog(@"image click");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -148,7 +144,7 @@
             
             for(int i=0; i<[loadimageArray count]; i++){
                 PFObject *imageObject = [loadimageArray objectAtIndex:0];
-                NSLog(@"iamgeObject: %@", imageObject);
+                //NSLog(@"iamgeObject: %@", imageObject);
                 imageFile = [imageObject objectForKey:@"picture"];
                 NSLog(@"imagefile: %@",imageFile);
                 
@@ -156,13 +152,13 @@
                 [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                     if (!error) {
                         UIImage *imageConverted = [UIImage imageWithData:data];
-                        NSLog(@"%@", data);
-                        NSLog(@"%@", imageFile);
+                        //NSLog(@"%@", data);
+                        //NSLog(@"%@", imageFile);
                         [imageView setImage:imageConverted];
                         // image can now be set on a UIImageView
                     }
                     else{
-                        NSLog(@"Error");
+                        //NSLog(@"Error");
                     }
                 }];
             }
