@@ -92,7 +92,7 @@
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
                         <outlet property="galleryPhoto" destination="9Dc-EV-cwG" id="Pw3-Pt-K5O"/>
-                        <outlet property="imageView" destination="fJ6-2F-Et2" id="r35-ZW-uQf"/>
+                        <outlet property="imageView" destination="fJ6-2F-Et2" id="dsn-iz-mtF"/>
                         <outlet property="takePhoto" destination="h7B-qu-wen" id="Vr1-Fg-Z3d"/>
                     </connections>
                 </viewController>

@@ -10,8 +10,10 @@
 
 @interface ViewController (){
     NSString *partyName;
-    NSArray *loadimageArray;
+    NSArray *loadimageArray;    //store UIObjects from Parse, use to get image
     PFFile *imageFile;
+    NSMutableArray *pictureArray;   //store UIImages from parse
+    int nextNum;
 }
 @property (nonatomic, strong) PFFile *photoFile;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier fileUploadBackgroundTaskId;
@@ -48,7 +50,16 @@
 
 -(void)singleTapping:(UIGestureRecognizer *)recognizer
 {
-    NSLog(@"image click");
+    nextNum++;
+    NSLog(@"picArray count:%d", [pictureArray count]);
+    NSLog(@"nextNum: %d", nextNum);
+    if(nextNum >= [pictureArray count]){    //reset index if out of bounds of imageArray
+        nextNum = 0;
+        NSLog(@"count reset");
+    }
+    UIImage *nextImage = pictureArray[nextNum];
+    NSLog(@"nextPic: %@", pictureArray[nextNum]);
+    [imageView setImage:nextImage];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -130,7 +141,7 @@
 
 
 -(void)loadImageParse{
-    NSLog(@"Here");
+    pictureArray = [[NSMutableArray alloc] init];   //init pictureArray
     PFQuery *partyPics = [PFQuery queryWithClassName:@"App"];
     
     //[partyPics whereKey:@"partyName" equalTo:partyName];    //constrain images to same party
@@ -147,6 +158,8 @@
                 //NSLog(@"iamgeObject: %@", imageObject);
                 imageFile = [imageObject objectForKey:@"picture"];
                 NSLog(@"imagefile: %@",imageFile);
+                NSLog(@"# of pics: %d", [loadimageArray count]);
+                
                 
                 
                 [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -154,44 +167,17 @@
                         UIImage *imageConverted = [UIImage imageWithData:data];
                         //NSLog(@"%@", data);
                         //NSLog(@"%@", imageFile);
-                        [imageView setImage:imageConverted];
-                        // image can now be set on a UIImageView
-                    }
-                    else{
-                        //NSLog(@"Error");
+                        [pictureArray addObject:imageConverted];    //add iamge to pictureArray
+                        nextNum = 0;    //set index to beginning of array.
+                        UIImage *firstImage = pictureArray[nextNum];
+                        [imageView setImage:firstImage];
+                        NSLog(@"pcitureArray1: %@", firstImage);
+                        //loading second image and not first
                     }
                 }];
             }
         }
     }];
-    
-    //PFObject *imageObject =
-    
-    
-    
-    /*
-    NSLog(@"party Pics: %@", partyPics);
-    
-    for(int i=0; i<3; i++){
-        PFObject *partyObjectPics = [partyPics getFirstObject];
-        PFFile *imageFile = [partyObjectPics objectForKey:@"picture"];
-        NSLog(@"%@", imageFile);
-        
-        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            if (!error) {
-                UIImage *imageConverted = [UIImage imageWithData:data];
-                NSLog(@"%@", data);
-                NSLog(@"%@", imageFile);
-                [imageView setImage:imageConverted];
-                // image can now be set on a UIImageView
-            }
-            else{
-                NSLog(@"Error");
-            }
-        }];
-        
-        //image = partyPics;
-    }*/
 }
 
 @end
