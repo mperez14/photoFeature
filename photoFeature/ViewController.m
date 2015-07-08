@@ -30,14 +30,10 @@
     [self loadImageParse];
     [super viewDidLoad];
     
-    //
-    FAKFontAwesome *refreshIcon = [FAKFontAwesome refreshIconWithSize:50];
-    UIImage *refreshImage = [refreshIcon imageWithSize:CGSizeMake(50, 50)];
-    [refresh setImage:refreshImage forState:normal];
     
     partyName = @"party2";  //Load name of party (PFObject to save picture to)
     
-    FAKFontAwesome *sendIcon = [FAKFontAwesome sendIconWithSize:20];
+    FAKFontAwesome *sendIcon = [FAKFontAwesome cameraIconWithSize:20];
     [sendIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     
     FAKFontAwesome *sendIcon2 = [FAKFontAwesome sendOIconWithSize:20];
@@ -48,7 +44,10 @@
     [takePhoto setImage:takePhotoImage forState:normal];
     [galleryPhoto setImage:galleryPhotoImage forState:normal];
     
-    
+    //refresh button
+    FAKFontAwesome *refreshIcon = [FAKFontAwesome refreshIconWithSize:30];
+    UIImage *refreshImage = [refreshIcon imageWithSize:CGSizeMake(30, 30)];
+    [refresh setImage:refreshImage forState:normal];
 
     
     UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
@@ -156,20 +155,26 @@
     pictureArray = [[NSMutableArray alloc] init];   //init pictureArray
     PFQuery *partyPics = [PFQuery queryWithClassName:@"App"];
     
-    //[partyPics whereKey:@"partyName" equalTo:partyName];    //constrain images to same party
+    //[partyPics whereKey:partyName equalTo:@"partyName"];    //constrain images to same party
+    
+    
+    
     [partyPics findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             NSLog(@"Error loading");
         }else{
-            //loadObjectArray with parse Objects (each row)
             loadObjectArray = [[NSArray alloc] initWithArray:objects];
             NSLog(@"successful");
             NSLog(@"imageArray: %@", loadObjectArray);   //successful
             
             for(int i=0; i<[loadObjectArray count]; i++){
                 PFObject *imageObject = [loadObjectArray objectAtIndex:i];   //imageObject loads objects from imageArray
-                imageFile = [imageObject objectForKey:@"picture"];
-                //load imageFile with value of photo from parse
+                
+                //check if PFObject has same party as you
+                if([[imageObject objectForKey:@"partyName"] isEqualToString:partyName]){
+                    //if so, load image with value of photo from parse
+                    imageFile = [imageObject objectForKey:@"picture"];
+                }
                 
                 
                 [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
