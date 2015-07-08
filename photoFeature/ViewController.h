@@ -20,9 +20,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *takePhoto;
 @property (weak, nonatomic) IBOutlet UIButton *galleryPhoto;
 //@property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIButton *refresh;
 
 - (IBAction)takePhoto:(id)sender;
 
 - (IBAction)usePhotoGallery:(id)sender;
+- (IBAction)refresh:(id)sender;
 @end
 

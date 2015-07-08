@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Matthew Perez. All rights reserved.
 //
 
+//TODO: Make selection restricted to party string. Check by changing name
+
 #import "ViewController.h"
 
 @interface ViewController (){
@@ -17,17 +19,23 @@
     
 }
 @property (nonatomic, strong) PFFile *photoFile;
-@property (nonatomic, assign) UIBackgroundTaskIdentifier fileUploadBackgroundTaskId;
-@property (nonatomic, assign) UIBackgroundTaskIdentifier photoPostBackgroundTaskId;
+//@property (nonatomic, assign) UIBackgroundTaskIdentifier fileUploadBackgroundTaskId;
+//@property (nonatomic, assign) UIBackgroundTaskIdentifier photoPostBackgroundTaskId;
 
 @end
 
 @implementation ViewController
-@synthesize takePhoto, galleryPhoto;
+@synthesize takePhoto, galleryPhoto, refresh;
 - (void)viewDidLoad {
     [self loadImageParse];
     [super viewDidLoad];
-    partyName = @"party1";  //Load name of party (PFObject to save picture to)
+    
+    //
+    FAKFontAwesome *refreshIcon = [FAKFontAwesome refreshIconWithSize:50];
+    UIImage *refreshImage = [refreshIcon imageWithSize:CGSizeMake(50, 50)];
+    [refresh setImage:refreshImage forState:normal];
+    
+    partyName = @"party2";  //Load name of party (PFObject to save picture to)
     
     FAKFontAwesome *sendIcon = [FAKFontAwesome sendIconWithSize:20];
     [sendIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
@@ -83,6 +91,10 @@
     [self presentViewController:picker animated:YES completion:NULL];
 }
 
+- (IBAction)refresh:(id)sender {
+    [self loadImageParse]; //re-pull. fix, make a button to re-pull (HERE)
+}
+
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     [imageView setImage:image]; //load imageView with image
@@ -90,9 +102,8 @@
     //save to parse. Call when picture loads
     [self shouldUploadImage:image];
     
-    
     [self dismissViewControllerAnimated:YES completion:NULL];
-    //[self loadImageParse]; //pull
+    
 }
 
 

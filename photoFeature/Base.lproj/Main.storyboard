@@ -51,7 +51,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Dc-EV-cwG">
-                                <rect key="frame" x="254" y="424" width="119" height="30"/>
+                                <rect key="frame" x="241" y="426" width="119" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="NKH-Bb-UcQ"/>
                                     <constraint firstAttribute="width" constant="93" id="lGa-mT-as3"/>
@@ -63,8 +63,21 @@
                                     <action selector="usePhotoGallery:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oKN-rE-dc4"/>
                                 </connections>
                             </button>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fJ6-2F-Et2">
-                                <rect key="frame" x="16" y="37" width="568" height="272"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="USZ-vI-9OT">
+                                <rect key="frame" x="275" y="475" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="9hT-ZW-IQH"/>
+                                    <constraint firstAttribute="width" constant="50" id="U1v-em-dxL"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="refresh:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a6o-eq-Ucc"/>
+                                </connections>
+                            </button>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fJ6-2F-Et2">
+                                <rect key="frame" x="127" y="37" width="347" height="263"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="568" id="SuK-d4-4cA"/>
                                     <constraint firstAttribute="height" constant="272" id="TCb-o8-Gej"/>
@@ -82,8 +95,10 @@
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="9Dc-EV-cwG" secondAttribute="centerY" constant="-139" id="0Aj-Nf-xtn"/>
                             <constraint firstAttribute="centerX" secondItem="h7B-qu-wen" secondAttribute="centerX" id="4qb-dS-kE2"/>
+                            <constraint firstAttribute="centerY" secondItem="USZ-vI-9OT" secondAttribute="centerY" constant="-200" id="5d5-HQ-1tn"/>
                             <constraint firstAttribute="centerX" secondItem="fJ6-2F-Et2" secondAttribute="centerX" id="bOr-4S-tzf"/>
                             <constraint firstAttribute="centerY" secondItem="fJ6-2F-Et2" secondAttribute="centerY" constant="127" id="iaP-Xb-Zeg"/>
+                            <constraint firstAttribute="centerX" secondItem="USZ-vI-9OT" secondAttribute="centerX" id="ksA-a6-zGd"/>
                             <constraint firstAttribute="centerX" secondItem="9Dc-EV-cwG" secondAttribute="centerX" constant="-0.5" id="mKL-Xm-Da5"/>
                             <constraint firstAttribute="centerY" secondItem="h7B-qu-wen" secondAttribute="centerY" constant="-65" id="ryj-ds-Ndg"/>
                         </constraints>
@@ -93,6 +108,7 @@
                     <connections>
                         <outlet property="galleryPhoto" destination="9Dc-EV-cwG" id="Pw3-Pt-K5O"/>
                         <outlet property="imageView" destination="fJ6-2F-Et2" id="viQ-k6-FOo"/>
+                        <outlet property="refresh" destination="USZ-vI-9OT" id="G4e-t4-50I"/>
                         <outlet property="takePhoto" destination="h7B-qu-wen" id="Vr1-Fg-Z3d"/>
                     </connections>
                 </viewController>
