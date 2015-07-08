@@ -50,8 +50,8 @@
                                     <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QoT-A6-Pgg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Dc-EV-cwG">
-                                <rect key="frame" x="254" y="424" width="93" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Dc-EV-cwG">
+                                <rect key="frame" x="254" y="424" width="119" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="NKH-Bb-UcQ"/>
                                     <constraint firstAttribute="width" constant="93" id="lGa-mT-as3"/>
@@ -92,7 +92,7 @@
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
                         <outlet property="galleryPhoto" destination="9Dc-EV-cwG" id="Pw3-Pt-K5O"/>
-                        <outlet property="imageView" destination="fJ6-2F-Et2" id="dsn-iz-mtF"/>
+                        <outlet property="imageView" destination="fJ6-2F-Et2" id="viQ-k6-FOo"/>
                         <outlet property="takePhoto" destination="h7B-qu-wen" id="Vr1-Fg-Z3d"/>
                     </connections>
                 </viewController>

@@ -14,12 +14,12 @@
 @interface ViewController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
     
     __weak IBOutlet UIImageView *imageView;
-    
     UIImagePickerController *picker;
     UIImage *image;
 }
 @property (weak, nonatomic) IBOutlet UIButton *takePhoto;
 @property (weak, nonatomic) IBOutlet UIButton *galleryPhoto;
+//@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 - (IBAction)takePhoto:(id)sender;
 

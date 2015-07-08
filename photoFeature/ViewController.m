@@ -10,10 +10,11 @@
 
 @interface ViewController (){
     NSString *partyName;
-    NSArray *loadimageArray;    //store UIObjects from Parse, use to get image
+    NSArray *loadObjectArray;    //store UIObjects from Parse, use to get image
     PFFile *imageFile;
     NSMutableArray *pictureArray;   //store UIImages from parse
     int nextNum;
+    
 }
 @property (nonatomic, strong) PFFile *photoFile;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier fileUploadBackgroundTaskId;
@@ -51,12 +52,11 @@
 -(void)singleTapping:(UIGestureRecognizer *)recognizer
 {
     nextNum++;
-    NSLog(@"picArray count:%d", [pictureArray count]);
-    NSLog(@"nextNum: %d", nextNum);
     if(nextNum >= [pictureArray count]){    //reset index if out of bounds of imageArray
         nextNum = 0;
         NSLog(@"count reset");
     }
+    NSLog(@"nextNum: %d", nextNum);
     UIImage *nextImage = pictureArray[nextNum];
     NSLog(@"nextPic: %@", pictureArray[nextNum]);
     [imageView setImage:nextImage];
@@ -92,6 +92,7 @@
     
     
     [self dismissViewControllerAnimated:YES completion:NULL];
+    //[self loadImageParse]; //pull
 }
 
 
@@ -149,30 +150,30 @@
         if (error) {
             NSLog(@"Error loading");
         }else{
-            loadimageArray = [[NSArray alloc] initWithArray:objects];
+            //loadObjectArray with parse Objects (each row)
+            loadObjectArray = [[NSArray alloc] initWithArray:objects];
             NSLog(@"successful");
-            NSLog(@"imageArray: %@", loadimageArray);   //successful
+            NSLog(@"imageArray: %@", loadObjectArray);   //successful
             
-            for(int i=0; i<[loadimageArray count]; i++){
-                PFObject *imageObject = [loadimageArray objectAtIndex:0];
-                //NSLog(@"iamgeObject: %@", imageObject);
+            for(int i=0; i<[loadObjectArray count]; i++){
+                PFObject *imageObject = [loadObjectArray objectAtIndex:i];   //imageObject loads objects from imageArray
                 imageFile = [imageObject objectForKey:@"picture"];
-                NSLog(@"imagefile: %@",imageFile);
-                NSLog(@"# of pics: %d", [loadimageArray count]);
-                
+                //load imageFile with value of photo from parse
                 
                 
                 [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                     if (!error) {
+                        //convert PFFile => Data => UIImage
                         UIImage *imageConverted = [UIImage imageWithData:data];
-                        //NSLog(@"%@", data);
-                        //NSLog(@"%@", imageFile);
-                        [pictureArray addObject:imageConverted];    //add iamge to pictureArray
-                        nextNum = 0;    //set index to beginning of array.
+                        
+                        //add image to pictureArray
+                        [pictureArray addObject:imageConverted];
+                        
+                        
+                        //set index to beginning of array
+                        nextNum = 0;
                         UIImage *firstImage = pictureArray[nextNum];
-                        [imageView setImage:firstImage];
-                        NSLog(@"pcitureArray1: %@", firstImage);
-                        //loading second image and not first
+                        [imageView setImage:firstImage];    //load
                     }
                 }];
             }
