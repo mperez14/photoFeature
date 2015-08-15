@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kiW-23-ZVx">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -48,19 +48,7 @@
                                 </variation>
                                 <connections>
                                     <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QoT-A6-Pgg"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Dc-EV-cwG">
-                                <rect key="frame" x="241" y="426" width="119" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="NKH-Bb-UcQ"/>
-                                    <constraint firstAttribute="width" constant="93" id="lGa-mT-as3"/>
-                                </constraints>
-                                <state key="normal" title="Gallery Photo">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="usePhotoGallery:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oKN-rE-dc4"/>
+                                    <segue destination="GD5-Pu-hTi" kind="push" identifier="test" id="JgK-FN-s05"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="USZ-vI-9OT">
@@ -93,26 +81,69 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="9Dc-EV-cwG" secondAttribute="centerY" constant="-139" id="0Aj-Nf-xtn"/>
                             <constraint firstAttribute="centerX" secondItem="h7B-qu-wen" secondAttribute="centerX" id="4qb-dS-kE2"/>
                             <constraint firstAttribute="centerY" secondItem="USZ-vI-9OT" secondAttribute="centerY" constant="-200" id="5d5-HQ-1tn"/>
                             <constraint firstAttribute="centerX" secondItem="fJ6-2F-Et2" secondAttribute="centerX" id="bOr-4S-tzf"/>
                             <constraint firstAttribute="centerY" secondItem="fJ6-2F-Et2" secondAttribute="centerY" constant="127" id="iaP-Xb-Zeg"/>
                             <constraint firstAttribute="centerX" secondItem="USZ-vI-9OT" secondAttribute="centerX" id="ksA-a6-zGd"/>
-                            <constraint firstAttribute="centerX" secondItem="9Dc-EV-cwG" secondAttribute="centerX" constant="-0.5" id="mKL-Xm-Da5"/>
                             <constraint firstAttribute="centerY" secondItem="h7B-qu-wen" secondAttribute="centerY" constant="-65" id="ryj-ds-Ndg"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="mki-uG-8Ad"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
-                        <outlet property="galleryPhoto" destination="9Dc-EV-cwG" id="Pw3-Pt-K5O"/>
                         <outlet property="imageView" destination="fJ6-2F-Et2" id="viQ-k6-FOo"/>
                         <outlet property="refresh" destination="USZ-vI-9OT" id="G4e-t4-50I"/>
                         <outlet property="takePhoto" destination="h7B-qu-wen" id="Vr1-Fg-Z3d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1067" y="240"/>
+        </scene>
+        <!--Edit Photo Controller-->
+        <scene sceneID="RQa-AU-hfx">
+            <objects>
+                <viewController storyboardIdentifier="edit" id="GD5-Pu-hTi" customClass="editPhotoController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HnW-Ka-oZI"/>
+                        <viewControllerLayoutGuide type="bottom" id="ap2-U0-Qbr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rcQ-vd-jCc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xzy-1l-ky3">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="auC-cp-hmv"/>
+                    <connections>
+                        <outlet property="imageView" destination="Xzy-1l-ky3" id="h1f-2F-wLl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2vH-GG-TS9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1759" y="-2"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="h7Y-Wz-WBp">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kiW-23-ZVx" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uK3-rH-vXE">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Mei-cr-XS8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0M2-le-fqq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="255" y="240"/>
         </scene>

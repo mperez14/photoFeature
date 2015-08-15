@@ -32,22 +32,6 @@
     
     
     partyName = @"party2";  //Load name of party (PFObject to save picture to)
-    
-    FAKFontAwesome *sendIcon = [FAKFontAwesome cameraIconWithSize:20];
-    [sendIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    
-    FAKFontAwesome *sendIcon2 = [FAKFontAwesome sendOIconWithSize:20];
-
-    UIImage *takePhotoImage = [sendIcon imageWithSize:CGSizeMake(20, 20)];
-    UIImage *galleryPhotoImage = [sendIcon2 imageWithSize:CGSizeMake(20, 20)];
-    
-    [takePhoto setImage:takePhotoImage forState:normal];
-    [galleryPhoto setImage:galleryPhotoImage forState:normal];
-    
-    //refresh button
-    FAKFontAwesome *refreshIcon = [FAKFontAwesome refreshIconWithSize:30];
-    UIImage *refreshImage = [refreshIcon imageWithSize:CGSizeMake(30, 30)];
-    [refresh setImage:refreshImage forState:normal];
 
     
     UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
@@ -76,40 +60,62 @@
 
 
 - (IBAction)takePhoto:(id)sender {
-    picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
-    [self presentViewController:picker animated:YES completion:NULL];
+//    picker = [[UIImagePickerController alloc] init];
+//    picker.delegate = self;
+//    [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
+//    [self presentViewController:picker animated:YES completion:NULL];
+    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+//    UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"edit"];
+//    [self presentViewController:viewController animated:YES completion:nil];
+
     
 }
 
 - (IBAction)usePhotoGallery:(id)sender {
-    picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-    [self presentViewController:picker animated:YES completion:NULL];
+    
+//    picker = [[UIImagePickerController alloc] init];
+//    picker.delegate = self;
+//    [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+//    [self presentViewController:picker animated:YES completion:NULL];
 }
 
 - (IBAction)refresh:(id)sender {
     [self loadImageParse]; //re-pull. fix, make a button to re-pull (HERE)
 }
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    [imageView setImage:image]; //load imageView with image
-    
-    //save to parse. Call when picture loads
-    [self shouldUploadImage:image];
-    
-    [self dismissViewControllerAnimated:YES completion:NULL];
-    
-}
+//-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+//    _image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+//    //image = [self drawFront:image text:@"Hello World" atPoint:CGPointMake(100, 100)];
+//    //image = [self burnTextIntoImage:@"HI" image:image];
+//    //image = [self drawTextOnImage:@"Hi World" img:image];
+//    [imageView setImage:_image]; //load imageView with image
+//    
+//    //save to parse. Call when picture loads
+//    //[self shouldUploadImage:image];
+//    
+//    [self dismissViewControllerAnimated:YES completion:NULL];
+//    
+//    //Go to edit screen
+//    
+////    SecondView *secView = [[SecondView alloc] initWithNibName:@"SecondView" bundle:[NSBundle mainBundle]];
+////    
+////    self.secondView = secView;
+////    
+////    secView.theImage = selectedImage.image;
+//    
+//    NSLog(@"Go to editviewController");
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+//    UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"edit"];
+//    [self presentViewController:viewController animated:YES completion:nil];
+//    
+//}
 
 
 - (BOOL)shouldUploadImage:(UIImage *)anImage {
     
     // JPEG to decrease file size and enable faster uploads & downloads
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.8f); //conver image to jpeg
+    NSData *imageData = UIImageJPEGRepresentation(_image, 0.8f); //conver image to jpeg
     
     if (!imageData) {
         NSLog(@"Image Data not converted");
@@ -155,10 +161,6 @@
     pictureArray = [[NSMutableArray alloc] init];   //init pictureArray
     PFQuery *partyPics = [PFQuery queryWithClassName:@"App"];
     
-    //[partyPics whereKey:partyName equalTo:@"partyName"];    //constrain images to same party
-    
-    
-    
     [partyPics findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             NSLog(@"Error loading");
@@ -196,5 +198,74 @@
         }
     }];
 }
+
+- (UIImage *)burnTextIntoImage:(NSString *)text image:(UIImage *)img {
+    
+    UIGraphicsBeginImageContext(img.size);
+    
+    CGRect aRectangle = CGRectMake(200,200, img.size.width, img.size.height);
+    [img drawInRect:aRectangle];
+    
+    [[UIColor redColor] set];           // set text color
+    NSInteger fontSize = 14;
+    if ( [text length] > 200 ) {
+        fontSize = 10;
+    }
+    UIFont *font = [UIFont boldSystemFontOfSize: fontSize];     // set text font
+    
+//    [text drawInRect : aRectangle                      // render the text
+//             withFont : font
+//        lineBreakMode : UILineBreakModeTailTruncation  // clip overflow from end of last line
+//            alignment : UITextAlignmentCenter ];
+//    
+    NSDictionary *attr = @{NSForegroundColorAttributeName: [UIColor redColor], NSFontAttributeName: font};
+    [text drawInRect:aRectangle withAttributes:attr];
+    UIImage *theImage=UIGraphicsGetImageFromCurrentImageContext();   // extract the image
+    UIGraphicsEndImageContext();     // clean  up the context.
+    [imageView setImage:theImage]; //load imageView with image
+    return theImage;
+}
+
+-(UIImage*)drawFront:(UIImage*)image1 text:(NSString*)text atPoint:(CGPoint)point
+{
+    UIFont *font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:21];
+    UIGraphicsBeginImageContext(image1.size);
+    [image1 drawInRect:CGRectMake(0,0,image1.size.width,image1.size.height)];
+    CGRect rect = CGRectMake(point.x, (point.y - 5), image1.size.width, image1.size.height);
+    [[UIColor whiteColor] set];
+    
+    NSMutableAttributedString* attString = [[NSMutableAttributedString alloc] initWithString:text];
+    NSLog(@"attString: %@", attString);
+    NSRange range = NSMakeRange(0, [attString length]);
+    
+    [attString addAttribute:NSFontAttributeName value:font range:range];
+    [attString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:range];
+    
+    NSShadow* shadow = [[NSShadow alloc] init];
+    shadow.shadowColor = [UIColor darkGrayColor];
+    shadow.shadowOffset = CGSizeMake(1.0f, 1.5f);
+    [attString addAttribute:NSShadowAttributeName value:shadow range:range];
+    
+    [attString drawInRect:CGRectIntegral(rect)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+- (UIImage *)drawTextOnImage:(NSString *)text img:(UIImage *)img {
+    UIGraphicsBeginImageContext(img.size);
+    CGRect imageBoundaries = CGRectMake(0,0, img.size.width, img.size.height);
+    [img drawInRect:imageBoundaries];
+    
+    [[UIColor grayColor] set];
+    
+    [text drawInRect:imageBoundaries withFont:[UIFont boldSystemFontOfSize:15] lineBreakMode:NSLineBreakByTruncatingTail alignment:NSTextAlignmentCenter];
+    
+    UIImage *theImage=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
+
 
 @end

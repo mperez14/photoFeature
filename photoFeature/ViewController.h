@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <FontAwesomeKit/FontAwesomeKit.h>
+//#import <FontAwesomeKit/FontAwesomeKit.h>
 #import <Parse/Parse.h>
 
-
+@class editPhotoController;
 @interface ViewController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
     
     __weak IBOutlet UIImageView *imageView;
@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *galleryPhoto;
 //@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *refresh;
+@property (weak, nonatomic) UIImage *image;
+@property (nonatomic, retain) editPhotoController *editPhoto;
 
 - (IBAction)takePhoto:(id)sender;
 
