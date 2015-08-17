@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		07A6C9F21B419EB90057B349 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A6C9F11B419EB90057B349 /* CoreText.framework */; };
-		07A6C9F41B419F6F0057B349 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07A6C9F31B419F6F0057B349 /* FontAwesome.otf */; };
 		07AE89E01B44B6A0007022B5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AE89DF1B44B6A0007022B5 /* AudioToolbox.framework */; };
 		07AE89E21B44B6A7007022B5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AE89E11B44B6A7007022B5 /* CFNetwork.framework */; };
 		07AE89E41B44B6AE007022B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AE89E31B44B6AE007022B5 /* CoreGraphics.framework */; };
@@ -50,7 +49,6 @@
 
 /* Begin PBXFileReference section */
 		07A6C9F11B419EB90057B349 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		07A6C9F31B419F6F0057B349 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.otf; path = Pods/FontAwesomeKit/FontAwesomeKit/FontAwesome.otf; sourceTree = "<group>"; };
 		07AE89DF1B44B6A0007022B5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		07AE89E11B44B6A7007022B5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		07AE89E31B44B6AE007022B5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -130,7 +128,6 @@
 		07B07DDD1B3D992D008627F9 = {
 			isa = PBXGroup;
 			children = (
-				07A6C9F31B419F6F0057B349 /* FontAwesome.otf */,
 				07B07DE81B3D992D008627F9 /* photoFeature */,
 				07B07E021B3D992D008627F9 /* photoFeatureTests */,
 				07B07DE71B3D992D008627F9 /* Products */,
@@ -310,7 +307,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07A6C9F41B419F6F0057B349 /* FontAwesome.otf in Resources */,
 				07B07DF51B3D992D008627F9 /* Main.storyboard in Resources */,
 				07B07DFA1B3D992D008627F9 /* LaunchScreen.xib in Resources */,
 				07B07DF71B3D992D008627F9 /* Images.xcassets in Resources */,

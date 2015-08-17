@@ -7,6 +7,7 @@
 //
 
 #import "editPhotoController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface editPhotoController (){
     NSString *partyName;
@@ -17,11 +18,13 @@
 @implementation editPhotoController
 
 - (void)viewDidLoad {
-    [self takePhoto];
+    //[self takePhoto];
+    //NSLog(@"image3: %@", _theImage);
+    [_imageView setImage:_theImage];
     [super viewDidLoad];
     // Do any additional setup after loading the view
     
-    partyName = @"party2";  //Load name of party (PFObject to save picture to)
+    partyName = @"party3";  //Load name of party (PFObject to save picture to)
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Push"
                                                             style:UIBarButtonItemStyleDone
@@ -53,8 +56,8 @@
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    _image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    [_imageView setImage:_image]; //load imageView with image
+    _theImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    [_imageView setImage:_theImage]; //load imageView with image
     
     //save to parse. Call when picture loads
     //[self shouldUploadImage:image];
@@ -65,7 +68,7 @@
 - (BOOL)shouldUploadImage:(UIImage *)anImage {
     
     // JPEG to decrease file size and enable faster uploads & downloads
-    NSData *imageData = UIImageJPEGRepresentation(_image, 0.8f); //conver image to jpeg
+    NSData *imageData = UIImageJPEGRepresentation(_theImage, 0.8f); //conver image to jpeg
     
     if (!imageData) {
         NSLog(@"Image Data not converted");
@@ -82,15 +85,29 @@
     PFObject *party = [PFObject objectWithClassName:@"App"]; //if partyName object is not created, then make it
     [party setObject:self.photoFile forKey:@"picture"]; //set picture for object
     [party setObject:partyName forKey:@"partyName"];    //save name of Party as a string
-    [party saveInBackground];   //push to parse
+    //[party saveInBackground];   //push to parse
     
-    NSLog(@"Pushed to Parse");
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading";
+    [party saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if(succeeded) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            //reload data to show new photo
+            NSLog(@"Pushed to Parse");
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+            UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"uploadPicture"];
+            //[self presentViewController:viewController animated:YES completion:nil];
+            //[[self navigationController] pushViewController:viewController animated:YES];
+            [[self navigationController] showDetailViewController:viewController sender:self];
+        } else {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            NSLog(@"error: %@",error);
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Could not upload photo, please try again!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
     
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"uploadPicture"];
-        //[self presentViewController:viewController animated:YES completion:nil];
-    //[[self navigationController] pushViewController:viewController animated:YES];
-    [[self navigationController] showDetailViewController:viewController sender:self];
+    
     
     return YES;
 }

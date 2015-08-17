@@ -47,8 +47,7 @@
                                     <rect key="frame" x="117" y="348" width="106" height="30"/>
                                 </variation>
                                 <connections>
-                                    <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QoT-A6-Pgg"/>
-                                    <segue destination="GD5-Pu-hTi" kind="push" identifier="test" id="JgK-FN-s05"/>
+                                    <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nhv-6Q-N5R"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="USZ-vI-9OT">
@@ -95,7 +94,7 @@
                     <connections>
                         <outlet property="imageView" destination="fJ6-2F-Et2" id="viQ-k6-FOo"/>
                         <outlet property="refresh" destination="USZ-vI-9OT" id="G4e-t4-50I"/>
-                        <outlet property="takePhoto" destination="h7B-qu-wen" id="Vr1-Fg-Z3d"/>
+                        <segue destination="GD5-Pu-hTi" kind="show" identifier="edit" id="q7v-YQ-FyN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

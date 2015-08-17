@@ -9,6 +9,7 @@
 //TODO: Make selection restricted to party string. Check by changing name
 
 #import "ViewController.h"
+#import "editPhotoController.h"
 
 @interface ViewController (){
     NSString *partyName;
@@ -25,13 +26,13 @@
 @end
 
 @implementation ViewController
-@synthesize takePhoto, galleryPhoto, refresh;
+@synthesize galleryPhoto, refresh;
 - (void)viewDidLoad {
     [self loadImageParse];
     [super viewDidLoad];
     
     
-    partyName = @"party2";  //Load name of party (PFObject to save picture to)
+    partyName = @"party3";  //Load name of party (PFObject to save picture to)
 
     
     UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
@@ -42,6 +43,8 @@
 
 -(void)singleTapping:(UIGestureRecognizer *)recognizer
 {
+    if([pictureArray count] != 0){
+    NSLog(@"picture ar: %d", [pictureArray count]);
     nextNum++;
     if(nextNum >= [pictureArray count]){    //reset index if out of bounds of imageArray
         nextNum = 0;
@@ -51,6 +54,7 @@
     UIImage *nextImage = pictureArray[nextNum];
     NSLog(@"nextPic: %@", pictureArray[nextNum]);
     [imageView setImage:nextImage];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,56 +64,47 @@
 
 
 - (IBAction)takePhoto:(id)sender {
-//    picker = [[UIImagePickerController alloc] init];
-//    picker.delegate = self;
-//    [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
-//    [self presentViewController:picker animated:YES completion:NULL];
+    picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
+    [self presentViewController:picker animated:YES completion:NULL];
     
 //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
 //    UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"edit"];
 //    [self presentViewController:viewController animated:YES completion:nil];
 
     
-}
-
-- (IBAction)usePhotoGallery:(id)sender {
-    
-//    picker = [[UIImagePickerController alloc] init];
-//    picker.delegate = self;
-//    [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-//    [self presentViewController:picker animated:YES completion:NULL];
 }
 
 - (IBAction)refresh:(id)sender {
     [self loadImageParse]; //re-pull. fix, make a button to re-pull (HERE)
 }
 
-//-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-//    _image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-//    //image = [self drawFront:image text:@"Hello World" atPoint:CGPointMake(100, 100)];
-//    //image = [self burnTextIntoImage:@"HI" image:image];
-//    //image = [self drawTextOnImage:@"Hi World" img:image];
-//    [imageView setImage:_image]; //load imageView with image
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    _image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    //image = [self drawFront:image text:@"Hello World" atPoint:CGPointMake(100, 100)];
+    //image = [self burnTextIntoImage:@"HI" image:image];
+    //image = [self drawTextOnImage:@"Hi World" img:image];
+    //[imageView setImage:_image]; //load imageView with image
+    
+    //save to parse. Call when picture loads
+    //[self shouldUploadImage:image];
+    //NSLog(@"image1: %@", _image);
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    
+    //Go to edit screen
+    
+//    SecondView *secView = [[SecondView alloc] initWithNibName:@"SecondView" bundle:[NSBundle mainBundle]];
 //    
-//    //save to parse. Call when picture loads
-//    //[self shouldUploadImage:image];
+//    self.secondView = secView;
 //    
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//    
-//    //Go to edit screen
-//    
-////    SecondView *secView = [[SecondView alloc] initWithNibName:@"SecondView" bundle:[NSBundle mainBundle]];
-////    
-////    self.secondView = secView;
-////    
-////    secView.theImage = selectedImage.image;
-//    
-//    NSLog(@"Go to editviewController");
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-//    UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"edit"];
-//    [self presentViewController:viewController animated:YES completion:nil];
-//    
-//}
+//    secView.theImage = selectedImage.image;
+    
+    NSLog(@"Go to editviewController");
+    //call segue
+    [self performSegueWithIdentifier:@"edit" sender:self];
+    
+}
 
 
 - (BOOL)shouldUploadImage:(UIImage *)anImage {
@@ -199,73 +194,14 @@
     }];
 }
 
-- (UIImage *)burnTextIntoImage:(NSString *)text image:(UIImage *)img {
-    
-    UIGraphicsBeginImageContext(img.size);
-    
-    CGRect aRectangle = CGRectMake(200,200, img.size.width, img.size.height);
-    [img drawInRect:aRectangle];
-    
-    [[UIColor redColor] set];           // set text color
-    NSInteger fontSize = 14;
-    if ( [text length] > 200 ) {
-        fontSize = 10;
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"edit"]){
+        
+        editPhotoController *controller = (editPhotoController *)segue.destinationViewController;
+        controller.theImage = _image;   //pass image object to other view controller
+        //NSLog(@"image2: %@", controller.theImage);
+        
     }
-    UIFont *font = [UIFont boldSystemFontOfSize: fontSize];     // set text font
-    
-//    [text drawInRect : aRectangle                      // render the text
-//             withFont : font
-//        lineBreakMode : UILineBreakModeTailTruncation  // clip overflow from end of last line
-//            alignment : UITextAlignmentCenter ];
-//    
-    NSDictionary *attr = @{NSForegroundColorAttributeName: [UIColor redColor], NSFontAttributeName: font};
-    [text drawInRect:aRectangle withAttributes:attr];
-    UIImage *theImage=UIGraphicsGetImageFromCurrentImageContext();   // extract the image
-    UIGraphicsEndImageContext();     // clean  up the context.
-    [imageView setImage:theImage]; //load imageView with image
-    return theImage;
 }
-
--(UIImage*)drawFront:(UIImage*)image1 text:(NSString*)text atPoint:(CGPoint)point
-{
-    UIFont *font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:21];
-    UIGraphicsBeginImageContext(image1.size);
-    [image1 drawInRect:CGRectMake(0,0,image1.size.width,image1.size.height)];
-    CGRect rect = CGRectMake(point.x, (point.y - 5), image1.size.width, image1.size.height);
-    [[UIColor whiteColor] set];
-    
-    NSMutableAttributedString* attString = [[NSMutableAttributedString alloc] initWithString:text];
-    NSLog(@"attString: %@", attString);
-    NSRange range = NSMakeRange(0, [attString length]);
-    
-    [attString addAttribute:NSFontAttributeName value:font range:range];
-    [attString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:range];
-    
-    NSShadow* shadow = [[NSShadow alloc] init];
-    shadow.shadowColor = [UIColor darkGrayColor];
-    shadow.shadowOffset = CGSizeMake(1.0f, 1.5f);
-    [attString addAttribute:NSShadowAttributeName value:shadow range:range];
-    
-    [attString drawInRect:CGRectIntegral(rect)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return newImage;
-}
-
-- (UIImage *)drawTextOnImage:(NSString *)text img:(UIImage *)img {
-    UIGraphicsBeginImageContext(img.size);
-    CGRect imageBoundaries = CGRectMake(0,0, img.size.width, img.size.height);
-    [img drawInRect:imageBoundaries];
-    
-    [[UIColor grayColor] set];
-    
-    [text drawInRect:imageBoundaries withFont:[UIFont boldSystemFontOfSize:15] lineBreakMode:NSLineBreakByTruncatingTail alignment:NSTextAlignmentCenter];
-    
-    UIImage *theImage=UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return theImage;
-}
-
 
 @end

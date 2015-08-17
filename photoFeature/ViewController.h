@@ -15,9 +15,9 @@
     
     __weak IBOutlet UIImageView *imageView;
     UIImagePickerController *picker;
-    UIImage *image;
+    //UIImage *image;
 }
-@property (weak, nonatomic) IBOutlet UIButton *takePhoto;
+//@property (weak, nonatomic) IBOutlet UIButton *takePhoto;
 @property (weak, nonatomic) IBOutlet UIButton *galleryPhoto;
 //@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *refresh;
