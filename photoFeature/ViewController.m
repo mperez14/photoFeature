@@ -90,7 +90,7 @@
     //save to parse. Call when picture loads
     //[self shouldUploadImage:image];
     //NSLog(@"image1: %@", _image);
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    //[self dismissViewControllerAnimated:YES completion:NULL];
     
     //Go to edit screen
     
@@ -103,7 +103,7 @@
     NSLog(@"Go to editviewController");
     //call segue
     [self performSegueWithIdentifier:@"edit" sender:self];
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

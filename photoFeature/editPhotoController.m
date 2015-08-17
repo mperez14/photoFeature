@@ -4,7 +4,7 @@
 //
 //  Created by Matthew Perez on 8/12/15.
 //  Copyright (c) 2015 Matthew Perez. All rights reserved.
-//
+// Shows ViewController briefly before going to editorController
 
 #import "editPhotoController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -96,8 +96,6 @@
             NSLog(@"Pushed to Parse");
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
             UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"uploadPicture"];
-            //[self presentViewController:viewController animated:YES completion:nil];
-            //[[self navigationController] pushViewController:viewController animated:YES];
             [[self navigationController] showDetailViewController:viewController sender:self];
         } else {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
