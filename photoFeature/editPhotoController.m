@@ -51,18 +51,20 @@
     NSLog(@"Tap detected");
     //if imageView is tapped => add uitext
     UITextField* textField = [[UITextField alloc] initWithFrame:CGRectMake(200, 200, 300, 40)];
+    [textField becomeFirstResponder];   //show keyboard
     textField.font = [UIFont systemFontOfSize:15];
-    textField.placeholder = @"enter text";
+    textField.placeholder = @" ";
     textField.autocorrectionType = UITextAutocorrectionTypeYes;
     textField.keyboardType = UIKeyboardTypeDefault;
     textField.returnKeyType = UIReturnKeyDone;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.delegate = (id)self;
-    [_imageView addSubview:textField];
-    //[textField release];
-    
-    
+    [_imageView addSubview:textField];}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {    //dismiss keyboard when done
+    [textField resignFirstResponder];
+    return NO;
 }
 
 
