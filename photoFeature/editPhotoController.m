@@ -32,6 +32,13 @@
                                                             action:@selector(shouldUploadImage:)];
     [self.navigationItem setRightBarButtonItem:item animated:YES];
     [self.navigationItem setTitle:@"Preview Photo"];
+    
+    UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
+    [singleTap setNumberOfTapsRequired:1];
+    [_imageView addGestureRecognizer:singleTap];
+    [self.view addSubview:_imageView];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,6 +46,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)singleTapping:(UIGestureRecognizer *)recognizer
+{
+    NSLog(@"Tap detected");
+    //if imageView is tapped => add uitext
+    UITextField* textField = [[UITextField alloc] initWithFrame:CGRectMake(200, 200, 300, 40)];
+    textField.font = [UIFont systemFontOfSize:15];
+    textField.placeholder = @"enter text";
+    textField.autocorrectionType = UITextAutocorrectionTypeYes;
+    textField.keyboardType = UIKeyboardTypeDefault;
+    textField.returnKeyType = UIReturnKeyDone;
+    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    textField.delegate = (id)self;
+    [_imageView addSubview:textField];
+    //[textField release];
+    
+    
+}
 
 
 -(void)takePhoto{
