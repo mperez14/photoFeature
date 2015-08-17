@@ -31,6 +31,7 @@
                                                             target:self
                                                             action:@selector(shouldUploadImage:)];
     [self.navigationItem setRightBarButtonItem:item animated:YES];
+    [self.navigationItem setTitle:@"Preview Photo"];
 }
 
 - (void)didReceiveMemoryWarning {
