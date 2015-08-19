@@ -24,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view
     
-    partyName = @"party3";  //Load name of party (PFObject to save picture to)
+    partyName = @"party4";  //Load name of party (PFObject to save picture to)
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Push"
                                                             style:UIBarButtonItemStyleDone
@@ -95,8 +95,17 @@
 
 - (BOOL)shouldUploadImage:(UIImage *)anImage {
     
+    // grab reference to the view you'd like to capture
+    UIView *wholeScreen = self.splitViewController.view;
+    
+    // define the size and grab a UIImage from it
+    UIGraphicsBeginImageContextWithOptions(_imageView.bounds.size, NO, 0.0);
+    [_imageView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *screengrab = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
     // JPEG to decrease file size and enable faster uploads & downloads
-    NSData *imageData = UIImageJPEGRepresentation(_theImage, 0.8f); //conver image to jpeg
+    NSData *imageData = UIImageJPEGRepresentation(screengrab, 0.8f); //conver image to jpeg
     
     if (!imageData) {
         NSLog(@"Image Data not converted");
@@ -116,7 +125,7 @@
     //[party saveInBackground];   //push to parse
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Loading";
+    hud.labelText = @"Pushing Picture...";
     [party saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(succeeded) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];

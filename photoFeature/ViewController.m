@@ -32,9 +32,8 @@
     [super viewDidLoad];
     
     
-    partyName = @"party3";  //Load name of party (PFObject to save picture to)
+    partyName = @"party4";  //Load name of party (PFObject to save picture to)
 
-    //
     UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
     [singleTap setNumberOfTapsRequired:1];
     [imageView addGestureRecognizer:singleTap];
