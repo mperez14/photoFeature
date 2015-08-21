@@ -11,6 +11,7 @@
 
 @interface editPhotoController (){
     NSString *partyName;
+    BOOL *firstTouch;
 }
 
 @end
@@ -18,9 +19,8 @@
 @implementation editPhotoController
 
 - (void)viewDidLoad {
-    //[self takePhoto];
-    //NSLog(@"image3: %@", _theImage);
     [_imageView setImage:_theImage];
+    firstTouch = true;
     [super viewDidLoad];
     // Do any additional setup after loading the view
     
@@ -37,8 +37,6 @@
     [singleTap setNumberOfTapsRequired:1];
     [_imageView addGestureRecognizer:singleTap];
     [self.view addSubview:_imageView];
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,54 +46,32 @@
 
 -(void)singleTapping:(UIGestureRecognizer *)recognizer
 {
+    if(firstTouch == true){
+        CGPoint touchPoint = [recognizer locationInView: _imageView];
+        NSLog(@"Tap detected");
+        //if imageView is tapped => add uitext
+        UITextField* textField = [[UITextField alloc] initWithFrame:CGRectMake(touchPoint.x, touchPoint.y, 300, 40)];
+        [textField becomeFirstResponder];   //show keyboard
+        textField.font = [UIFont systemFontOfSize:15];
+        textField.placeholder = @" ";
+        textField.autocorrectionType = UITextAutocorrectionTypeYes;
+        textField.keyboardType = UIKeyboardTypeDefault;
+        textField.returnKeyType = UIReturnKeyDone;
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        textField.delegate = (id)self;
+        [_imageView addSubview:textField];
+        firstTouch = false;
+    }
     
-    CGPoint touchPoint = [recognizer locationInView: _imageView];
-    NSLog(@"Tap detected");
-    //if imageView is tapped => add uitext
-    UITextField* textField = [[UITextField alloc] initWithFrame:CGRectMake(touchPoint.x, touchPoint.y, 300, 40)];
-    [textField becomeFirstResponder];   //show keyboard
-    textField.font = [UIFont systemFontOfSize:15];
-    textField.placeholder = @" ";
-    textField.autocorrectionType = UITextAutocorrectionTypeYes;
-    textField.keyboardType = UIKeyboardTypeDefault;
-    textField.returnKeyType = UIReturnKeyDone;
-    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    textField.delegate = (id)self;
-    [_imageView addSubview:textField];}
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {    //dismiss keyboard when done
     [textField resignFirstResponder];
     return NO;
 }
 
-
--(void)takePhoto{
-    picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
-    [self presentViewController:picker animated:YES completion:NULL];
-    
-}
-
-- (IBAction)usePhotoGallery:(id)sender {
-    picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-    [self presentViewController:picker animated:YES completion:NULL];
-}
-
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    _theImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    [_imageView setImage:_theImage]; //load imageView with image
-    
-    //save to parse. Call when picture loads
-    //[self shouldUploadImage:image];
-    
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (BOOL)shouldUploadImage:(UIImage *)anImage {
+- (void)shouldUploadImage:(UIImage *)anImage {
     // Screenshot UIImageView
     UIGraphicsBeginImageContextWithOptions(_imageView.bounds.size, NO, 0.0);
     [_imageView.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -108,7 +84,7 @@
     
     if (!imageData) {
         NSLog(@"Image Data not converted");
-        return NO;
+        return;
     }
     self.photoFile = [PFFile fileWithData:imageData];   //convert jpeg to PFFile
     
@@ -141,9 +117,6 @@
         }
     }];
     
-    
-    
-    return YES;
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
