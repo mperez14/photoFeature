@@ -48,9 +48,11 @@
 
 -(void)singleTapping:(UIGestureRecognizer *)recognizer
 {
+    
+    CGPoint touchPoint = [recognizer locationInView: _imageView];
     NSLog(@"Tap detected");
     //if imageView is tapped => add uitext
-    UITextField* textField = [[UITextField alloc] initWithFrame:CGRectMake(200, 200, 300, 40)];
+    UITextField* textField = [[UITextField alloc] initWithFrame:CGRectMake(touchPoint.x, touchPoint.y, 300, 40)];
     [textField becomeFirstResponder];   //show keyboard
     textField.font = [UIFont systemFontOfSize:15];
     textField.placeholder = @" ";
