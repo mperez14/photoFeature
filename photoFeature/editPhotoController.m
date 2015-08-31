@@ -11,7 +11,7 @@
 
 @interface editPhotoController (){
     NSString *partyName;
-    BOOL *firstTouch;
+    bool *firstTouch;
 }
 
 @end
