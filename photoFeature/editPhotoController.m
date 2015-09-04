@@ -68,7 +68,10 @@
         firstTouch = false;
     }
     else{
-        //drag
+        //select new position for textfield
+        CGPoint touchPoint = [recognizer locationInView: _imageView];
+        textField.center = touchPoint;
+        
     }
     
 }
