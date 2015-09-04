@@ -12,6 +12,7 @@
 @interface editPhotoController (){
     NSString *partyName;
     bool *firstTouch;
+    UITextField* textField;
 }
 
 @end
@@ -36,6 +37,7 @@
     UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
     [singleTap setNumberOfTapsRequired:1];
     [_imageView addGestureRecognizer:singleTap];
+    
     [self.view addSubview:_imageView];
 }
 
@@ -47,13 +49,15 @@
 -(void)singleTapping:(UIGestureRecognizer *)recognizer
 {
     if(firstTouch == true){
-        CGPoint touchPoint = [recognizer locationInView: _imageView];
-        NSLog(@"Tap detected");
-        //if imageView is tapped => add uitext
-        UITextField* textField = [[UITextField alloc] initWithFrame:CGRectMake(touchPoint.x, touchPoint.y, 300, 40)];
+//        CGPoint touchPoint = [recognizer locationInView: _imageView];
+//        //if imageView is tapped => add uitext
+//        UITextField* textField = [[UITextField alloc] initWithFrame:CGRectMake(touchPoint.x, touchPoint.y, 300, 40)];
+        textField = [[UITextField alloc] initWithFrame:CGRectMake(_imageView.frame.origin.x/2, _imageView.frame.size.height/2, 300, 40)];
+        textField.delegate = self;
         [textField becomeFirstResponder];   //show keyboard
         textField.font = [UIFont systemFontOfSize:15];
         textField.placeholder = @" ";
+        textField.textAlignment = NSTextAlignmentCenter;
         textField.autocorrectionType = UITextAutocorrectionTypeYes;
         textField.keyboardType = UIKeyboardTypeDefault;
         textField.returnKeyType = UIReturnKeyDone;
@@ -63,15 +67,20 @@
         [_imageView addSubview:textField];
         firstTouch = false;
     }
+    else{
+        //drag
+    }
     
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {    //dismiss keyboard when done
-    [textField resignFirstResponder];
+- (BOOL)textFieldShouldReturn:(UITextField *)textfield {    //dismiss keyboard when done
+    [textfield resignFirstResponder];
     return NO;
 }
 
 - (void)shouldUploadImage:(UIImage *)anImage {
+    [textField endEditing:YES];
+    
     // Screenshot UIImageView
     UIGraphicsBeginImageContextWithOptions(_imageView.bounds.size, NO, 0.0);
     [_imageView.layer renderInContext:UIGraphicsGetCurrentContext()];
